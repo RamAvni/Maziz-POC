@@ -1,14 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import "./App.css";
-import { getAllGtfsRoutes } from "./service/getAllGtfsRoutes";
-import { OPEN_BUS_API_URL } from "./service/OPEN_BUS_API_URL";
-import axios from "axios";
-import dayjs from "dayjs";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { getAllGtfsRoutes, OPEN_BUS_API_URL } from "@packages/open-bus-api";
 
 function App() {
+  const queryClient = new QueryClient();
   const [routes, setRoutes] = useState<any>([]);
-  const [selectedRoute, setSelectedRoute] = useState<string | null>(null);
-  const [liveVehicle, setLiveVehicle] = useState<object | null>(null);
+  const [selectedRoute, setSelectedRoute] = useState<string>("");
   const gotRoutes = useRef(false);
 
   useEffect(() => {
@@ -20,28 +18,9 @@ function App() {
     })();
   }, []);
 
-  useEffect(() => {
-    (async () => {
-      if (selectedRoute) {
-        const currentTimeFrom = dayjs().subtract(5, "minutes").format();
-        const currentTimeTo = dayjs().format();
-
-        console.log(currentTimeFrom);
-        console.log(currentTimeTo);
-        const liveVehicle = (
-          await axios.get(
-            `${OPEN_BUS_API_URL}/siri_vehicle_locations/list?line_ref=${selectedRoute.line_ref}&recorded_at_time_from=${encodeURIComponent(currentTimeFrom)}&recorded_at_time_to=${encodeURIComponent(currentTimeTo)}`,
-          )
-        ).data;
-        console.log(liveVehicle);
-        setLiveVehicle(liveVehicle);
-      }
-    })();
-  }, [selectedRoute]);
-
   if (gotRoutes.current)
     return (
-      <>
+      <QueryClientProvider client={queryClient}>
         <select
           value={selectedRoute}
           onChange={(e) =>
@@ -66,7 +45,7 @@ function App() {
             <option>{route.siri_ride__vehicle_ref}</option>
           ))}
         </select>
-      </>
+      </QueryClientProvider>
     );
 }
 

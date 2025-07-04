@@ -1,0 +1,16 @@
+{
+  "name": "@packages/open-bus-api",
+  "scripts": {
+    "build": "tsup"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "axios": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "tsup": "catalog:"
+  }
+}

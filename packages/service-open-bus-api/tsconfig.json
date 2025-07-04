@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "strict": true,
+    "skipLibCheck": false,
+    "noImplicitAny": true,
+    "outDir": "dist",
+    "baseUrl": ".",
+    "paths": {
+      "@repo/open-bus-api/*": ["./src/*"]
+    },
+    "lib": ["ES2015", "DOM"],
+    "target": "ES2015",
+    "moduleResolution": "bundler"
+  },
+  "include": ["."],
+  "exclude": ["node_modules", "dist"]
+}

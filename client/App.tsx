@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import "./App.css";
-import { getAllGtfsRoutes } from "./service/getAllGtfsRoutes";
-import { OPEN_BUS_API_URL } from "./service/OPEN_BUS_API_URL";
-import axios from "axios";
+import { getAllGtfsRoutes } from "../packages/service-open-bus-api/src/functions/getAllGtfsRoutes";
+import { OPEN_BUS_API_URL } from "../packages/service-open-bus-api/src/consts/OPEN_BUS_API_URL";
 import dayjs from "dayjs";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function App() {
+  const queryClient = new QueryClient();
   const [routes, setRoutes] = useState<any>([]);
   const [selectedRoute, setSelectedRoute] = useState<string | null>(null);
   const [liveVehicle, setLiveVehicle] = useState<object | null>(null);
@@ -41,7 +42,7 @@ function App() {
 
   if (gotRoutes.current)
     return (
-      <>
+      <QueryClientProvider client={queryClient}>
         <select
           value={selectedRoute}
           onChange={(e) =>
@@ -66,7 +67,7 @@ function App() {
             <option>{route.siri_ride__vehicle_ref}</option>
           ))}
         </select>
-      </>
+      </QueryClientProvider>
     );
 }
 

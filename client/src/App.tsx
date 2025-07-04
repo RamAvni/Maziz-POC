@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import "./App.css";
-import { getAllGtfsRoutes } from "../packages/service-open-bus-api/src/functions/getAllGtfsRoutes";
-import { OPEN_BUS_API_URL } from "../packages/service-open-bus-api/src/consts/OPEN_BUS_API_URL";
 import dayjs from "dayjs";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { getAllGtfsRoutes, OPEN_BUS_API_URL } from "@packages/open-bus-api";
 
 function App() {
   const queryClient = new QueryClient();
